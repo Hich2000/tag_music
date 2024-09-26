@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:tag_music/widgets/menu.dart';
+import 'package:tag_music/widgets/music_player/song_list.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -23,12 +24,9 @@ class _AppState extends State<App> {
   //only need to add a key value pair here to create a menu option and page
   final Map<NavigationDestination, Widget> _navigation = {
     const NavigationDestination(
-      icon: Icon(Icons.home),
-      label: 'Home',
-    ): const Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
+      icon: Icon(Icons.music_note),
+      label: 'Songs',
+    ): const SongList(),
     const NavigationDestination(
       icon: Icon(Icons.business),
       label: 'Business',
