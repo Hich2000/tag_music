@@ -1,6 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
+import 'package:tag_music/providers/song_list_provider.dart';
 import 'package:tag_music/widgets/app.dart';
 
 void main() {
@@ -15,8 +16,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-
   void handlePermissions() async {
     final audioPermissionStatus = await Permission.audio.status;
     if (!audioPermissionStatus.isGranted) {
@@ -30,18 +29,25 @@ class _MyAppState extends State<MyApp> {
     handlePermissions();
   }
 
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: [
+        Provider(
+          create: (_) => SongListProvider(),
+          lazy: false,
+        )
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: const App(),
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: const App(),
     );
   }
 }

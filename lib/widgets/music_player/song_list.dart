@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
+import 'package:provider/provider.dart';
+import 'package:tag_music/providers/song_list_provider.dart';
 
 class SongList extends StatefulWidget {
   const SongList({super.key});
@@ -11,26 +10,11 @@ class SongList extends StatefulWidget {
 }
 
 class _SongListState extends State<SongList> {
-  List<String> songs = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    String filePath = "/storage/emulated/0/Music";
-    Directory musicFolder = Directory(filePath);
-
-    for (var song in musicFolder.listSync()) {
-      if (song is! File) {
-        continue;
-      }
-
-      songs.add(basename(song.path));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final List<String> songs = context.read<SongListProvider>().songs;
+
+  
     //get all music files on android
     return ListView.builder(
       itemCount: songs.length,
