@@ -1,8 +1,6 @@
 
 import 'dart:io';
 
-import 'package:path/path.dart';
-
 class SongListProvider {
   String filePath = "/storage/emulated/0/Music";
   List<String> songs = [];
