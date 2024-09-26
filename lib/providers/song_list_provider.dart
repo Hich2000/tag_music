@@ -15,7 +15,7 @@ class SongListProvider {
         continue;
       }
 
-      songs.add(basename(song.path));
+      songs.add(song.path);
     }
   }
 }

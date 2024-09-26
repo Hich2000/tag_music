@@ -1,6 +1,3 @@
-
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -40,6 +37,14 @@ class AudioPlayerProvider extends ChangeNotifier {
 
   void handleSeek(double time) {
     player.seek(Duration(seconds: time.toInt()));
-  } 
+  }
+
+  void playSong(String filePath) async {
+    await player.stop();
+    await player.setAudioSource(AudioSource.file(filePath));
+    await player.play();
+    print(player.audioSource.toString());
+    notifyListeners();
+  }
 
 }
