@@ -11,14 +11,14 @@ class AudioPlayerProvider extends ChangeNotifier {
 
   SongListProvider songListProvider = SongListProvider();
 
+  ConcatenatingAudioSource playlist =
+        ConcatenatingAudioSource(children: []);
+
   AudioPlayerProvider() {
-    List<AudioSource> audioSources = [];
     for (var song in songListProvider.songs) {
-      audioSources.add(AudioSource.file(song,
+      playlist.add(AudioSource.file(song,
           tag: MediaItem(id: song, title: basename(song))));
     }
-    ConcatenatingAudioSource playlist =
-        ConcatenatingAudioSource(children: audioSources);
     player.setAudioSource(playlist);
     player.setLoopMode(LoopMode.all);
 
@@ -51,9 +51,9 @@ class AudioPlayerProvider extends ChangeNotifier {
     player.seek(Duration(seconds: time.toInt()));
   }
 
-  void playSong(String filePath) async {
+  void playSong(int index) async {
     await player.stop();
-    await player.setAudioSource(AudioSource.file(filePath));
+    await player.setAudioSource(playlist, initialIndex: index);
     await player.play();
     notifyListeners();
   }

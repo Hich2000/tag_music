@@ -15,14 +15,14 @@ class _SongListState extends State<SongList> {
   @override
   Widget build(BuildContext context) {
     final List<String> songs = context.read<SongListProvider>().songs;
-    void Function(String) playSong = context.read<AudioPlayerProvider>().playSong;
+    void Function(int) playSong = context.read<AudioPlayerProvider>().playSong;
 
     //get all music files on android
     return ListView.builder(
       itemCount: songs.length,
       prototypeItem: InkWell(
         onTap: () {
-          playSong(songs.first);
+          playSong(0);
         },
         child: Card(
           child: Column(
@@ -43,7 +43,7 @@ class _SongListState extends State<SongList> {
       itemBuilder: (context, index) {
         return InkWell(
             onTap: () {
-              playSong(songs[index]);
+              playSong(index);
             },
             child: Card(
               child: Column(
