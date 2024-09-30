@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:tag_music/providers/audio_player_provider.dart';
+import 'package:tag_music/providers/new_audio_player_provider.dart';
 import 'package:tag_music/providers/song_list_provider.dart';
 import 'package:tag_music/widgets/app.dart';
 
@@ -41,6 +42,10 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (_) => AudioPlayerProvider(),
+          lazy: false,
+        ),
+        ChangeNotifierProvider(
+          create: (_) => NewAudioPlayerProvider(),
           lazy: false,
         ),
       ],

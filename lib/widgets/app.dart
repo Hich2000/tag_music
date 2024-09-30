@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:tag_music/widgets/menu.dart';
 import 'package:tag_music/widgets/music_player/music_player.dart';
+import 'package:tag_music/widgets/music_player/new_music_player.dart';
 import 'package:tag_music/widgets/music_player/song_list.dart';
 
 class App extends StatefulWidget {
@@ -29,6 +30,10 @@ class _AppState extends State<App> {
       icon: Icon(Icons.play_arrow),
       label: 'Player',
     ): const MusicPlayer(),
+    const NavigationDestination(
+      icon: Icon(Icons.loop),
+      label: 'Player',
+    ): const NewMusicPlayer(),
   };
 
   @override
