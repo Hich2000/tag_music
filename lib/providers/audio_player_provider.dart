@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:just_audio_background/just_audio_background.dart';
-import 'package:path/path.dart';
 
 class AudioPlayerProvider extends ChangeNotifier {
   AudioPlayer player = AudioPlayer();
@@ -9,11 +7,8 @@ class AudioPlayerProvider extends ChangeNotifier {
   Duration duration = Duration.zero;
 
   AudioPlayerProvider() {
-    player.setAudioSource(AudioSource.file(
-      "/storage/emulated/0/Music/1992.mp3",
-      tag: const MediaItem(id: "1992", title: "1992.mp3")
-      ));
-
+    player
+        .setAudioSource(AudioSource.file("/storage/emulated/0/Music/1992.mp3"));
 
     player.positionStream.listen((p) {
       position = p;
@@ -46,13 +41,8 @@ class AudioPlayerProvider extends ChangeNotifier {
 
   void playSong(String filePath) async {
     await player.stop();
-    await player.setAudioSource(
-      AudioSource.file(filePath,
-      tag: MediaItem(id: basename(filePath), title: basename(filePath))
-      )
-      );
+    await player.setAudioSource(AudioSource.file(filePath));
     await player.play();
     notifyListeners();
   }
-
 }
