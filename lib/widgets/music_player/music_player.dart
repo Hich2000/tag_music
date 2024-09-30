@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:tag_music/providers/audio_player_provider.dart';
 
@@ -10,10 +11,8 @@ class MusicPlayer extends StatefulWidget {
 }
 
 class _MusicPlayerState extends State<MusicPlayer> {
-
   @override
   Widget build(BuildContext context) {
-
     return Consumer<AudioPlayerProvider>(builder: (context, audioplayer, _) {
       return Padding(
         padding: const EdgeInsets.all(20.0),
@@ -28,10 +27,39 @@ class _MusicPlayerState extends State<MusicPlayer> {
               onChanged: audioplayer.handleSeek,
             ),
             Text(audioplayer.formatDuration(audioplayer.duration)),
-            IconButton(
-              icon: Icon(audioplayer.player.playing ? Icons.pause : Icons.play_arrow),
-              onPressed: audioplayer.handlePlayPause,
-            )
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(
+                    icon: const Icon(Icons.fast_rewind),
+                    onPressed: audioplayer.seekToPrevious),
+                IconButton(
+                  icon: Icon(audioplayer.player.playing
+                      ? Icons.pause
+                      : Icons.play_arrow),
+                  onPressed: audioplayer.handlePlayPause,
+                ),
+                IconButton(
+                    icon: const Icon(Icons.fast_forward),
+                    onPressed: audioplayer.seekToNext),
+                IconButton(
+                  icon: Icon(audioplayer.player.shuffleModeEnabled
+                      ? Icons.shuffle
+                      : Icons.arrow_right_alt),
+                  onPressed: audioplayer.handleShuffle,
+                ),
+                IconButton(
+                  icon: Icon(
+                    switch (audioplayer.player.loopMode) {
+                      LoopMode.off => Icons.close,
+                      LoopMode.one => Icons.repeat_one,
+                      LoopMode.all => Icons.repeat,
+                    }
+                    ),
+                  onPressed: audioplayer.handleLoopMode,
+                ),
+              ],
+            ),
           ],
         ),
       );

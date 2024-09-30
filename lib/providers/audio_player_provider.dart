@@ -1,14 +1,26 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:path/path.dart';
+import 'package:tag_music/providers/song_list_provider.dart';
 
 class AudioPlayerProvider extends ChangeNotifier {
   AudioPlayer player = AudioPlayer();
   Duration position = Duration.zero;
   Duration duration = Duration.zero;
 
+  SongListProvider songListProvider = SongListProvider();
+
   AudioPlayerProvider() {
-    player
-        .setAudioSource(AudioSource.file("/storage/emulated/0/Music/1992.mp3"));
+    List<AudioSource> audioSources = [];
+    for (var song in songListProvider.songs) {
+      audioSources.add(AudioSource.file(song,
+          tag: MediaItem(id: song, title: basename(song))));
+    }
+    ConcatenatingAudioSource playlist =
+        ConcatenatingAudioSource(children: audioSources);
+    player.setAudioSource(playlist);
+    player.setLoopMode(LoopMode.all);
 
     player.positionStream.listen((p) {
       position = p;
@@ -43,6 +55,34 @@ class AudioPlayerProvider extends ChangeNotifier {
     await player.stop();
     await player.setAudioSource(AudioSource.file(filePath));
     await player.play();
+    notifyListeners();
+  }
+
+  void seekToNext() async {
+    await player.seekToNext();
+  }
+
+  void seekToPrevious() async {
+    await player.seekToPrevious();
+  }
+
+  void handleShuffle() async {
+    if (player.shuffleModeEnabled) {
+      await player.setShuffleModeEnabled(false);
+    } else {
+      await player.setShuffleModeEnabled(true);
+    }
+    notifyListeners();
+  }
+
+  void handleLoopMode() async {
+    if (player.loopMode == LoopMode.off) {
+      player.setLoopMode(LoopMode.all);
+    } else if (player.loopMode == LoopMode.all) {
+      player.setLoopMode(LoopMode.one);
+    } else if (player.loopMode == LoopMode.one) {
+      player.setLoopMode(LoopMode.off);
+    }
     notifyListeners();
   }
 }
