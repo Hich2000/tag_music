@@ -1,7 +1,5 @@
-import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:path/path.dart';
 import 'package:tag_music/providers/song_list_provider.dart';
 
 class AudioPlayerProvider extends ChangeNotifier {
@@ -16,8 +14,7 @@ class AudioPlayerProvider extends ChangeNotifier {
 
   AudioPlayerProvider() {
     for (var song in songListProvider.songs) {
-      playlist.add(AudioSource.file(song,
-          tag: MediaItem(id: song, title: basename(song))));
+      playlist.add(AudioSource.file(song));
     }
     player.setAudioSource(playlist);
     player.setLoopMode(LoopMode.all);
